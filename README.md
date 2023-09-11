@@ -154,7 +154,7 @@ EOF  all  create  destroy  help  quit  show  update
 No known bugs at this time. 
 
 ## Authors
-Adedeji Victor - [Github](https://github.com/obigvee) / [Twitter](https://twitter.com/obigvee
+Adedeji Victor - [Github](https://github.com/obigvee) / [Twitter](https://twitter.com/obigvee)
 
 Second part of Airbnb:
 ## License

@@ -113,3 +113,40 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == 'db', "nt test file storage")
+    def test_get(self):
+        """Test that get method fetches data stored or saved from storage"""
+        from models import storage
+
+        place = list(storage.all(Place).values())[0]
+        amenity = list(storage.all(Amenity).values())[0]
+        user = list(storage.all(User).values())[0]
+        state = list(storage.all(State).values())[0]
+        review = list(storage.all(Review).values())[0]
+        city = list(storage.all(City).values())[0]
+
+        self.assertEqual(storage.get(Place, place.id), place)
+        self.assertEqual(storage.get(Amenity, amenity.id), amenity)
+        self.assertEqual(storage.get(User, user.id), user)
+        self.assertEqual(storage.get(State, state.id),state)
+        self.assertEqual(storage.get(Review, review.id), review)
+        self.assertEqual(storage.get(City, city.id), city)
+    
+    @unittest.skipIf(models.storage_t == 'db', "not testing  file storage")
+    def test_count(self):
+        """Test that count method counts numbers of objects saved to  db """
+        from models import storage
+
+        all_total_ini = storage.count()
+        all_state_ini = storage.count(State)
+        state = State(name="Rode Island")
+        state.save()
+        self.assertNotEqual(all_total_ini, storage.count())
+        self.assertNotEqual(all_state_ini, storage.count(State))
+        state.delete()
+        self.assertEqual(all_total_ini, storage.count())
+        self.assertEqual(all_state_ini, storage.count(State))
+
+if __name__ == "__main__":
+    unittest.main()

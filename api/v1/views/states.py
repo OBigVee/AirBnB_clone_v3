@@ -60,12 +60,6 @@ def remove_state(state_id=None):
     """Removes a state with the given id"""
     all_states = storage.all(State).values()
     res = list(filter(lambda x: x.id == state_id, all_states))
-    print(
-        "#### PRINT res values to understand what is going on\
-          in there.\n{}".format(
-            res
-        )
-    )
     if res:
         storage.delete(res[0])
         storage.save()

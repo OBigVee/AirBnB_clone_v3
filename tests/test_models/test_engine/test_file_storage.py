@@ -114,7 +114,7 @@ class TestFileStorage(unittest.TestCase):
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
 
-     @unittest.skipIf(models.storage_t == 'db', "nt test file storage")
+    @unittest.skipIf(models.storage_t == 'db', "nt test file storage")
     def test_get(self):
         """Test that get method fetches data stored or saved from storage"""
         from models import storage
@@ -148,3 +148,5 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(all_total_ini, storage.count())
         self.assertEqual(all_state_ini, storage.count(State))
 
+if __name__ == "__main__":
+    unittest.main()

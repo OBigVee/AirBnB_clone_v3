@@ -11,3 +11,8 @@ from flask import jsonify
 def status():
     """returns json  describing the status of api"""
     return jsonify({"status": "OK"})
+
+@app_views.route("/stats")
+def stat():
+    """endpoint retrieves number of each objects by type"""
+    storage.count

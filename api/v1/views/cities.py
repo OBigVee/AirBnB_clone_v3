@@ -9,14 +9,15 @@ from models import storage
 from werkzeug.exceptions import NotFound, MethodNotAllowed, BadRequest
 
 
-# ALLOWED_METHODS = ["GET", "POST", "PUT", "DELETE"]
 
 
 @app_views.route("/states/<state_id>/cities", methods=["GET", "POST"],
                  strict_slashes=False)
 @app_views.route("/cities/<city_id>", methods=["GET", "DELETE", "PUT"])
 def city_handler(state_id=None, city_id=None):
-    """factory method for cities"""
+    """routing function for cities mapping HTTP request 
+    methods to specific handler functions based on the request
+    method"""
     handlers = {
         "GET": cities_by_states,
         "POST": add_city,

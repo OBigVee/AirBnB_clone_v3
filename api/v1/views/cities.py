@@ -12,14 +12,28 @@ from werkzeug.exceptions import NotFound, MethodNotAllowed, BadRequest
 # ALLOWED_METHODS = ["GET", "POST", "PUT", "DELETE"]
 
 
-@app_views.route("/states/<state_id>/cities", methods=["GET"],
+@app_views.route("/states/<state_id>/cities", methods=["GET", "POST"],
                  strict_slashes=False)
-def cities_by_states(state_id=None):
+@app_views.route("/cities/<city_id>", methods=["GET", "DELETE", "PUT"])
+def city_handler(state_id=None, city_id=None):
+    """factory method for cities"""
+    handlers = {
+        "GET": cities_by_states,
+        "POST": add_city,
+        "PUT": update_city,
+        "DELETE": remove_city_byID
+    }
+    if request.method in handlers:
+        return handlers[request.method](state_id, city_id)
+    else:
+        raise MethodNotAllowed(list(handlers.keys()))
+
+
+def cities_by_states(state_id=None, city_id=None):
     """retrieves city by states id"""
     state = storage.get(State, state_id)
     if state is not None:
         return jsonify([city.to_dict() for city in state.cities])
-
     else:
         abort(404)
 
@@ -46,7 +60,7 @@ def remove_city_byID(city_id=None):
 
 @app_views.route("/states/<state_id>/cities", methods=["POST"],
                  strict_slashes=False)
-def add_city(state_id=None):
+def add_city(state_id=None, city_id=None):
     """create a new city"""
     state = storage.get(State, state_id)
     # print(f"##### HERE IS THE STATE ID {state_id}")
@@ -64,7 +78,7 @@ def add_city(state_id=None):
 
 
 @app_views.route("/cities/<city_id>", methods=["PUT"], strict_slashes=False)
-def update_city(city_id):
+def update_city(state_id=None, city_id=None):
     """update city"""
 
     ignore_keys = ("id", "state_id", "created_at", "updated_at")

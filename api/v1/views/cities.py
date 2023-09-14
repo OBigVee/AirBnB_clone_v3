@@ -1,4 +1,4 @@
-# #!/usr/bin/python3
+#!/usr/bin/python3
 """view fo City objects handles all default RESTFUL API action"""
 from models.city import City
 from models.state import State
